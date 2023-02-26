@@ -48,6 +48,6 @@ userSchema
   // Setter to set the first and last name
 
 // Initialize our User model
-const User = model('user', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
