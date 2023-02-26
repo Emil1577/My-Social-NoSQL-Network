@@ -6,13 +6,14 @@ const userSchema = new Schema(
     username:  {
       type: String,
       unique: true,
-      required: true,
-      trimmed: true,
+      trim: true,
+      required: "Username is Required",
     },
-    email:  {
+    email: {
       type: String,
       unique: true,
-      required: true,
+      required: "Username is Required",
+      match: [/.+@.+\..+/],
     },
     thoughts: [
       {
@@ -23,7 +24,7 @@ const userSchema = new Schema(
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Friends',
+        ref: 'User',
       },
     ],
   },
@@ -42,7 +43,7 @@ userSchema
   .virtual('friendCount')
   // Getter
   .get(function () {
-    return friends.length
+    return this.friends.length
   });
   // Setter to set the first and last name
 

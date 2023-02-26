@@ -1,14 +1,14 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
-  // Function to get all of the thoughts by invoking the find() method with no arguments.
-  // Then we return the results as JSON, and catch any errors. Errors are sent as JSON with a message and a 500 status code
+
   getThoughts(req, res) {
     Thought.find()
       .then((thoughts) => res.json(thoughts))
       .catch((err) => res.status(500).json(err));
   },
-  // Gets a single thought using the findOne method. We pass in the ID of the thought and then respond with it, or an error if not found
+
+  
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -18,8 +18,8 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Creates a new thought. Accepts a request body with the entire thought object.
-  // Because thoughts are associated with Users, we then update the User who created the app and add the ID of the thought to the thoughts array
+
+
   createThought(req, res) {
     Thought.create(req.body)
       .then((thought) => {
@@ -41,7 +41,7 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Updates and thought using the findOneAndUpdate method. Uses the ID, and the $set operator in mongodb to inject the request body. Enforces validation.
+
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -58,8 +58,7 @@ module.exports = {
         res.status(500).json(err);
       });
   },
-  // Deletes an thought from the database. Looks for an app by ID.
-  // Then if the app exists, we look for any users associated with the app based on he app ID and update the thoughts array for the User.
+
   deleteThought(req, res) {
     Thought.findOneAndRemove({ _id: req.params.thoughtId })
       .then((thought) =>
@@ -80,9 +79,8 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Adds a tag to an Thought. This method is unique in that we add the entire body of 
-  // the tag rather than the ID with the mongodb $addToSet operator.
-  addTag(req, res) {
+
+  addThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $addToSet: { tags: req.body } },
@@ -95,8 +93,8 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-  // Remove thought tag. This method finds the thought based on ID. It then updates the tags array associated with the app in question by removing it's tagId from the tags array.
-  removeTag(req, res) {
+
+  removeThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { tags: { tagId: req.params.tagId } } },
