@@ -23,6 +23,6 @@ router
 router.route('/:thoughtId/tags').post(addThought);
 
 // /api/Thoughts/:ThoughtId/tags/:tagId
-router.route('/:thoughtId/tags/:tagId').delete(removeThought);
+router.route('/:thoughtId/tags/:tagId').delete(removeThought).put(updateThought);
 
 module.exports = router;
