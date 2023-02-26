@@ -4,7 +4,8 @@ module.exports = {
   // Get all users
   getUsers(req, res) {
     User.find({})
-    .populate({path: 'Thought', select: '-__v'})
+    .populate({path: 'thoughts', select: '-__v'})
+    .populate ({path: 'friends', select: '__v'})
       .then(dbUserData => res.json(dbUserData))
       .catch(err => {
         console.log(err);
@@ -14,7 +15,7 @@ module.exports = {
 
   // Get a single user
   getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userId })
+    User.findOne({ username: req.params.username })
       .select('-__v')
       .then((user) =>
         !user
@@ -31,7 +32,7 @@ module.exports = {
   },
   // Delete a user and associated apps
   deleteUser(req, res) {
-    User.findOneAndDelete({ _id: req.params.userId })
+    User.findOneAndDelete({ username: req.params.username })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
@@ -63,7 +64,7 @@ module.exports = {
   // Remove assignment from a student
   deleteFriend(req, res) {
     Student.findOneAndUpdate(
-      { _id: req.params.userId },
+      { username: req.params.username },
       { $pull: { assignment: { assignmentId: req.params.friendId } } },
       { runValidators: true, new: true }
     )

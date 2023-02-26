@@ -24,7 +24,7 @@ module.exports = {
     Thought.create(req.body)
       .then((thought) => {
         return User.findOneAndUpdate(
-          { _id: req.body.userId },
+          { username: req.body.username },
           { $push: { thoughts: thought._id } },
           { new: true }
         );
@@ -73,7 +73,7 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(404).json({
-              message: 'thought created but no user with this id!',
+              message: 'thought deleted but no user with this id!',
             })
           : res.json({ message: 'Thought successfully deleted!' })
       )
