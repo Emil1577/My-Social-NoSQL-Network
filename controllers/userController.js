@@ -6,7 +6,7 @@ module.exports = {
     User.find({})
       .populate({ path: 'thoughts', select: '-__v' }) //'thoughts' is from the user.thoughts this goes the same with friends below.
       .populate({ path: 'friends', select: '-__v' })
-      .then(dbUserData => res.json(dbUserData))
+      .then(users => res.json(users))
       .catch(err => {
         console.log(err);
         res.status(500).json(err);
@@ -39,12 +39,12 @@ module.exports = {
       { runValidators: true, new: true }
     )
     
-      .then((dbUserData) => {
-        if (!dbUserData) {
+      .then((user) => {
+        if (!user) {
           res.status(404).json({ message: "No user found with this id!" });
           return;
         }
-        res.json(dbUserData);
+        res.json(user);
       })
       .catch((err) => res.json(err));
   },
